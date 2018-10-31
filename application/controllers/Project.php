@@ -101,5 +101,22 @@ function session3()
 	$this->session->sess_destroy();
 	redirect(base_url());
 }
+function cookie1()
+{
+	set_cookie("username","pooja",3600,"","/");
+ redirect(base_url('index.php/project/cookie2/'));
+
+}
+function cookie2()
+{
+	$this->load->view('showcookie');
+
+
+}
+function cookie3()
+{
+	set_cookie("username");
+	    redirect(base_url('index.php/project/cookie2/'));
+}
 }
 ?>
