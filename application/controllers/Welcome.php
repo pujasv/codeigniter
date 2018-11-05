@@ -20,15 +20,6 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-
-		
-		//$this->load->view('welcome_message');
-		    $data['name']="Pooja";
-		    $data['age']=27;
-		    $this->load->view('blogview',$data);
-		     $this->load->view('header');
-		      $this->load->view('footer');
-
-
+		$this->load->view('welcome_message');
 	}
 }
