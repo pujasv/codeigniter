@@ -72,7 +72,7 @@ endif;
         if($this->session->userdata('status')):
         ?>
   <li class="nav-item">
-          <a class="nav-link" href="charts.html">href="<?php echo base_url('index.php/admin/admin/change_pass')?>">
+          <a class="nav-link" href="<?php echo base_url('index.php/admin/admin/change_pass')?>">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Change Password</span></a>
         </li>
