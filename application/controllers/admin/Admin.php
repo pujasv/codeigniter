@@ -13,7 +13,7 @@ class Admin extends CI_Controller {
 	{
 		if($this->session->userdata('status'))
 			{
-				redirect(base_url());
+				redirect(base_url().'index.php/admin/admin/index');
 			}
 		//echo "login";
 		$this->load->view('admin/login');
@@ -21,6 +21,7 @@ class Admin extends CI_Controller {
 	public function logout()
 	{
 		$this->session->unset_userdata('status');
+		
 		$this->session->sess_destroy();
 		redirect(base_url());
 	}
@@ -121,6 +122,7 @@ class Admin extends CI_Controller {
 		$auth_ans =$this->admin_model->auth($_POST['uemail'], do_hash($_POST['upass']));
 		if($auth_ans){
 			//echo "ok";
+			$this->session->set_userdata('email',$_POST['uemail']);
 			$this->session->set_userdata('status',true);
 			echo "done";
 		}
@@ -136,6 +138,51 @@ class Admin extends CI_Controller {
 		if($ans){
 			redirect(base_url().'index.php/admin/admin/login');
 		}
+	}
+	public function password()
+	{
+		if(!$this->session->userdata('status'))
+			{
+				redirect(base_url().'index.php/admin/admin/login');
+			}
+		//echo "login";
+		$this->load->view('admin/password_view');
+	}
+	public function password_action()
+	{
+		// echo "<pre>";
+		// 	print_r($_POST);
+		// 		echo "</pre>";
+// exit;
+	$this->form_validation->set_rules('old_password', 'current Password:', 'trim|required|min_length[4]|max_length[12]|alpha_dash');
+	$this->form_validation->set_rules('new_password', 'New Password:', 'trim|required|min_length[4]|max_length[12]|alpha_dash');
+	$this->form_validation->set_rules('new_password', 'confirm Password:', 'trim|required|min_length[4]|max_length[12]|alpha_dash|matches[new_password]');
+	if($this->form_validation->run()== false){
+		echo validation_errors();
+	}
+	else{
+		if($_POST['old_password']==$_POST['new_password']){
+			echo "New password and current password does not same";
+		}
+		else{
+			//echo "ok";
+			$this->load->model('admin_model');
+			$ans_pass=$this->admin_model->check_password(do_hash($_POST['old_password']),$this->session->userdata('email'));
+
+			//var_dump($ans_pass);
+			if($ans_pass){
+				$ans_update=$this->admin_model->update_password(do_hash($_POST['new_password']),$this->session->userdata('email'));
+				if($ans_update){
+					echo "password updated";
+				}
+				
+			}
+			else{
+					echo "current password mismatch";
+				}
+		}
+	}
+
 	}
 }
 ?>
