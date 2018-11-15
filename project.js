@@ -34,4 +34,22 @@ $(document).ready(function(){
 			}
 		})
 	})
+		$(".btn-password").click(function(){
+		alert(12);
+		$.ajax({
+			type:"post",
+			data:$("#password_form").serialize(),
+		
+			url:apath+"password_action",
+			success:function(res){
+				if(res=='done')
+				{
+					window.location.href=apath;
+				}
+				else{
+					$(".err").html(res)
+				}
+			}
+		})
+	})
 })
