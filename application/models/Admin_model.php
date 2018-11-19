@@ -55,14 +55,21 @@ class Admin_model extends CI_Model{
 	}
 	function update_password($pass,$email)
 	{
-	 echo $email;
-		 echo $pass;
+	// echo $email;
+	//	 echo $pass;
 		//exit;
 		 $arr=array(
 			"upass"=>$pass);
 		$this->db->where("uemail",$email);
 		$this->db->update("users",$arr);
 		return true;
+	}
+	function get_userdata($email)
+	{
+		$this->db->select("uid,uname,umobile,uprofile,ustatus");
+		return $this->db->get_where("users",array("uemail"=>$email))->result();
+		
+		
 	}
 
 }
