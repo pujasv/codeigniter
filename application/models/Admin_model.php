@@ -71,6 +71,48 @@ class Admin_model extends CI_Model{
 		
 		
 	}
+	function check_email($email)
+	{
+		return $this->db->select("umobile")->get_where("users",array("uemail"=>$email))->result_array();
+	}
+	function update_otp($email,$ans)
+	{
+		// echo $email;
+		// echo $ans;
+		$data =array("otp"=>$ans);
+		$this->db->where("uemail",$email);
+		return $this->db->update("users",$data);
+	}
+	function get_otp($email){
+	return $this->db->select("otp")->get_where("users",array("uemail"=>$email))->result();
+	}
+	function update_password_for_forgot($pass,$email)
+	{
+		$data =array("upass"=>$pass);
+		$this->db->where("uemail",$email);
+		return $this->db->update("users",$data);
+	}
+	function add_category($data)
+	{
+		return $this->db->insert("category",$data);
+		
+	}
+	function add_brand($data)
+	{
+		return $this->db->insert("brand",$data);
+		
+	}
+function get_category()
+	{
+		return $this->db->get("category")->result_array();
+		
+	}
+	function get_brand()
+	{
+		return $this->db->get("brand")->result_array();
+		
+	}
+
 
 }
 ?>

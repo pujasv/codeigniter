@@ -218,9 +218,139 @@ class Admin extends CI_Controller {
 	}
 
 	}
-	function library()
+	
+	public function forgot_password()
 	{
-		echo "test";
+	
+		$this->load->view('admin/forgot_password_view');
+	}
+	function forgot1_action(){
+
+	// 	 echo "<pre>";
+	// 		print_r($_POST);
+	// 		echo "</pre>";
+ // exit();
+		$this->form_validation->set_rules('uemail', 'Email Id:', 'trim|required|valid_email');
+		if($this->form_validation->run()==false){
+			echo validation_errors();
+		}
+		else
+		{
+			$email =$this->input->post('uemail');
+			// echo $email;
+			// exit();
+			$ans =$this->admin_model->check_email($email);
+		
+			if(count($ans)>0){
+				$mob= $ans[0]['umobile'];
+				//echo $mob;
+				//echo chr(65);
+				$ans=random_string(5);
+				if($this->admin_model->update_otp($email,$ans))
+				{
+					$this->session->set_userdata('for_otp',$email);
+					echo "ok";
+				}
+			}
+			else
+			{
+				echo "Given email id does not exit";
+			}
+		}
+	}
+	function forgot2_action(){
+$email= $this->session->userdata('for_otp');
+		$this->form_validation->set_rules('uotp', 'OTP:', 'trim|required|alpha|exact_length[5]');
+		if($this->form_validation->run()==false){
+			echo validation_errors();
+		}
+		else
+		{
+			$otp=strtoupper($this->input->post('uotp'));
+		//	echo "$otp";
+			$ans=$this->admin_model->get_otp($email);
+			//print_r($ans);
+			if($ans[0]->otp==$otp){
+				echo "ok";
+			}
+			else{
+				echo "invalid OTP";
+			}
+		}
+}
+function forgot3_action(){
+
+	$this->form_validation->set_rules('upass', 'Password:', 'trim|required|min_length[4]|max_length[12]|alpha_dash');
+	$this->form_validation->set_rules('ucpass', 'Confirm Password:', 'trim|required|min_length[4]|max_length[12]|alpha_dash|matches[upass]');
+		if($this->form_validation->run()==false){
+			echo validation_errors();
+		}
+		else
+		{
+			$email= $this->session->userdata('for_otp');
+			$pass=do_hash($_POST['upass']);
+			if($this->admin_model->update_password_for_forgot($pass, $email))
+			{
+				echo "password updated";
+			}
+			}
+
+	}
+	function category()
+	{
+	$this->load->view('admin/category_view');
+	}
+	public function category_action()
+	{
+	
+		//print_r($_POST);
+		$this->form_validation->set_rules('name', 'category Name:', 'trim|required|is_unique[category.name]|regex_match[/^[a-zA-Z0-9][a-zA-Z0-9 ]{1,}[a-zA-Z0-9]$/]');
+		$this->form_validation->set_message("is_unique","Category Already Exit");
+	
+	
+		if($this->form_validation->run()==false){
+			echo validation_errors();
+		}
+		else
+		{
+			if($this->admin_model->add_category($_POST)){
+				echo "category Added";
+			}
+		}
+	}
+	function brand()
+	{
+	$this->load->view('admin/brand_view');
+	}
+	public function brand_action()
+	{
+	
+		//print_r($_POST);
+		$this->form_validation->set_rules('name', 'brand Name:', 'trim|required|is_unique[brand.name]|regex_match[/^[a-zA-Z0-9][a-zA-Z0-9 ]{1,}[a-zA-Z0-9]$/]');
+		$this->form_validation->set_message("is_unique","Brand Already Exit");
+	
+		if($this->form_validation->run()==false){
+			echo validation_errors();
+		}
+		else
+		{
+			if($this->admin_model->add_brand($_POST)){
+				echo "brand Added";
+			}
+		}
+	}
+	function product()
+	{
+		$a=$this->admin_model->get_category();
+		$b=$this->admin_model->get_brand();
+		// echo "<pre>";
+		// print_r($a);
+		// 	echo "</pre>";
+	$this->load->view('admin/product_view', array("x1"=>$a,"x2"=>$b));
+	}
+	function product_action()
+	{
+		print_r($_POST);
 	}
 }
 ?>

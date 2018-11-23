@@ -62,6 +62,12 @@
             <i class="fas fa-fw fa-table"></i>
             <span>Login</span></a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo base_url('index.php/admin/admin/forgot_password')?>">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Forgot Password</span></a>
+        </li>
+
 
 
 
@@ -80,10 +86,21 @@ endif;
          if($this->session->userdata('userstatus')==2):
         ?>
          <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url('index.php/admin/admin/library')?>">
+          <a class="nav-link" href="<?php echo base_url('index.php/admin/admin/category')?>">
             <i class="fas fa-fw fa-chart-area"></i>
-            <span>Add Library</span></a>
+            <span>Add Category</span></a>
         </li>
+         <li class="nav-item">
+          <a class="nav-link" href="<?php echo base_url('index.php/admin/admin/brand')?>">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Add Brand</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo base_url('index.php/admin/admin/product')?>">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Add Product</span></a>
+        </li>
+
          <?php
 endif;
 ?>
