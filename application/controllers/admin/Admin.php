@@ -348,9 +348,54 @@ function forgot3_action(){
 		// 	echo "</pre>";
 	$this->load->view('admin/product_view', array("x1"=>$a,"x2"=>$b));
 	}
-	function product_action()
+	function products_action()
 	{
-		print_r($_POST);
+		// echo "<pre>";
+		// print_r($_POST);
+		// 	echo "</pre>";
+		// 	echo "<pre>";
+		// print_r($_FILES);
+		// 	echo "</pre>";
+			$this->form_validation->set_rules('name','Product Name:','required|trim|regex_match[/^[a-zA-Z0-9][a-zA-Z0-9 _\-\'][a-zA-Z0-9]$/]');
+				$this->form_validation->set_rules('price','Product Price:','trim|required|numeric');
+				$this->form_validation->set_rules('discount','Product Discount:','trim|required|integer');
+				$this->form_validation->set_rules('discount','Product Discount:','trim|required|integer');
+				$this->form_validation->set_rules('category_id','category:','trim|required|integer');
+				$this->form_validation->set_rules('brand_id','brand:','trim|required|integer');
+				$this->form_validation->set_rules('description','Product description:','trim|required|min_length[3]|max_length[200]');
+				if($this->form_validation->run()== false){
+					echo validation_errors();
+				}
+				else
+				{
+				 $config['upload_path']          = './assets/products/';
+                $config['allowed_types']        = 'gif|jpg|png';
+                $config['max_size']             = 500;
+                $config['max_width']            = 1024;
+                $config['max_height']           = 768;
+                $config['file_ext_tolower']     =TRUE;
+                $config['remove_spaces']		=TRUE;
+                $this->upload->initialize($config);
+                 $path=time().$_FILES['path']['name'];
+                $_FILES['path']['name']=$path;
+
+
+                if ( ! $this->upload->do_upload('path'))
+                {
+					$err=$this->upload->display_errors();
+					echo $err;
+                }
+                else
+                {
+                	//echo "ok";
+                	if($this->admin_model->add_products($_POST))
+                	{
+                		echo "product added";
+                	}
+                }
+				}
+
+
 	}
 }
 ?>
