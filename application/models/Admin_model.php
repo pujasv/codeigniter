@@ -112,11 +112,7 @@ function get_category()
 		return $this->db->get("brand")->result_array();
 		
 	}
-function add_products($data)
-	{
-		return $this->db->insert("products",$data);
-		
-	}
+
 
 }
 ?>

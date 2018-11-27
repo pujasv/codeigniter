@@ -7,7 +7,7 @@ $this->load->view('admin/header');
       <div class="card card-register mx-auto mt-5">
         <div class="card-header">Category Page</div>
         <div class="card-body">
-          <form id="products_form">
+          <form id="product_form">
           
             <div class="form-group">
               <div class="form-label-group">
@@ -76,9 +76,9 @@ $this->load->view('admin/header');
               </div>
             </div>
            
-            <button type="button" class="btn btn-primary btn-block btn-products" >Add product</button>
+            <button type="button" class="btn btn-primary btn-block btn-brand" >Add product</button>
           </form>
-          <div class="products_err">
+          <div class="err">
 
           </div>
         </div>

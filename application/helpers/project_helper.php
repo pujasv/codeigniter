@@ -23,17 +23,4 @@ function random_string($no)
 	}
 	return $str;
 }
-function path(){
-	return base_url().'assets/client/';
-}
-function username(){
-	$CI =& get_instance();
-	if($CI->session->userdata('name')){
-		return $CI->session->userdata('name');
-
-	}else{
-		return false;
-	}
-
-}
 ?>
